@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class AbsTextService {
@@ -57,5 +59,19 @@ public class AbsTextService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    static String ignoreNlm(String inputText){
+        // Define the pattern to match
+        String patternToIgnore = "NlmCategory=\"[^\"]*\"";
+
+        // Create a pattern object
+        Pattern pattern = Pattern.compile(patternToIgnore);
+
+        // Create a matcher object
+        Matcher matcher = pattern.matcher(inputText);
+
+        // Replace matched patterns with an empty string
+        return matcher.replaceAll("");
+
     }
 }
