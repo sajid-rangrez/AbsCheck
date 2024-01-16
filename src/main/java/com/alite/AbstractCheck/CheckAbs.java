@@ -21,6 +21,7 @@ public class CheckAbs {
         String result = restTemplate.getForObject(apiUrl, String.class);
         result = StringEscapeUtils.unescapeHtml4(result);
         String res = null;
+        result = ignoreNlm(result);
 //        System.out.println(result);
         return extractTest(result);
     }
@@ -43,7 +44,21 @@ public class CheckAbs {
 //            System.out.println("---");
             res += getLebel+content;
         }
+//        System.out.println(res.trim());
         return res.trim();
     }
+    static String ignoreNlm(String inputText){
+        // Define the pattern to match
+        String patternToIgnore = " NlmCategory=\"[^\"]*\"";
 
+        // Create a pattern object
+        Pattern pattern = Pattern.compile(patternToIgnore);
+
+        // Create a matcher object
+        Matcher matcher = pattern.matcher(inputText);
+
+        // Replace matched patterns with an empty string
+        return matcher.replaceAll("");
+
+    }
 }
