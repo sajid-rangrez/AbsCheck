@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
 
 @Service
 public class AbsTextService {
@@ -22,7 +24,7 @@ public class AbsTextService {
        for(Citation record : records){
            String absText = CheckAbs.getAbstract(record.getPui());
            if(absText != null){
-               if(!record.getAbsText().equals(absText)){
+               if(!record.getAbsText().trim().equals(absText)){
                    record.setProblem(true);
                    record.setApiAbsText(absText);
                    System.out.println(record.getPui());
@@ -45,15 +47,30 @@ public class AbsTextService {
         writeDataToCsv(records, filePath);
         System.out.println("CSV file generated at: " + filePath);
     }
+
+    public void getDataToCSV(){
+        List<Citation> records = business.findAllRequired();
+        String filePath = "outputTantest.csv";
+        writeDataToCsv(records, filePath);
+        System.out.println("CSV file generated at: " + filePath);
+    }
+
+    public void getDataToCSV(){
+        List<Citation> records = business.findAllRequired();
+        String filePath = "outputTantest.csv";
+        writeDataToCsv(records, filePath);
+        System.out.println("CSV file generated at: " + filePath);
+    }
     public static void writeDataToCsv(List<Citation> citations, String filePath) {
         try (CSVWriter writer = new CSVWriter(new FileWriter(filePath))) {
             // Write header
-            String[] header = {"pui","Problem", "Abstract", "ApiAbstract"}; // Replace with your field names
+            String[] header = {"pui","Problem", "Abstract", "ApiAbstract","Created Date","User Created"}; // Replace with your field names
             writer.writeNext(header);
+            SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 
             // Write data
             for (Citation obj : citations) {
-                String[] data = {obj.getPui(),obj.getProblem().toString(), obj.getAbsText(), obj.getApiAbsText()};
+                String[] data = {obj.getPui(),obj.getProblem().toString(), obj.getAbsText(), obj.getApiAbsText(),formattedDate.format(((Timestamp)obj.getCreatedDate()).getTime()),obj.getUserCreated()};
                 writer.writeNext(data);
             }
         } catch (IOException e) {
