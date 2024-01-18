@@ -6,10 +6,10 @@ import com.alite.AbstractCheck.service.AbsTextService;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import java.io.IOException;
+
 
 @RestController
 public class Main {
@@ -17,12 +17,10 @@ public class Main {
     private MyRepository repository;
     @Autowired
     private AbsTextService service;
-
     @GetMapping("/start")
-    public void findAll(){
+    public void findAll() throws IOException {
         service.getData();
     }
-
     @GetMapping("/csvPrint")
     public void generateCSV(){
         service.getDataToCSV();

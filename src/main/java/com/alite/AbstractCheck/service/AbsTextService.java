@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 public class AbsTextService {
     @Autowired
     AbsTextBusiness business;
-    public void getData(){
+    public void getData() throws IOException {
        List<Citation> records = business.findAllRequired();
        for(Citation record : records){
            String absText = CheckAbs.getAbstract(record.getPui());
@@ -55,12 +55,6 @@ public class AbsTextService {
         System.out.println("CSV file generated at: " + filePath);
     }
 
-    public void getDataToCSV(){
-        List<Citation> records = business.findAllRequired();
-        String filePath = "outputTantest.csv";
-        writeDataToCsv(records, filePath);
-        System.out.println("CSV file generated at: " + filePath);
-    }
     public static void writeDataToCsv(List<Citation> citations, String filePath) {
         try (CSVWriter writer = new CSVWriter(new FileWriter(filePath))) {
             // Write header
