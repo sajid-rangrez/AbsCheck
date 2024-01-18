@@ -22,17 +22,9 @@ public class Main {
     public void findAll(){
         service.getData();
     }
-//    @GetMapping("/id/{id}")
-//    public Optional<Citation> byId(@PathVariable("id") String id){
-//        return repository.findByPui(id);
-//    }
-//
-//    @GetMapping("/testencode")
-//    public void test(){
-//        String encodedString = "Eichengr&#xfc;n Eichengr&#xfc;n Eichengr&#xfc;n";
-//        String decodedString = StringEscapeUtils.unescapeHtml4(encodedString);
-//
-//        System.out.println("Decoded String: " + decodedString);
-//    }
 
+    @GetMapping("/csvPrint")
+    public void generateCSV(){
+        service.getDataToCSV();
+    };
 }
